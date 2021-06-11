@@ -35,6 +35,7 @@ export default function AudioList() {
   const [isPlaying, current, toggle, setCurrent, audio] = useAudio(
     '../assets/audio/despierta.mp3'
   );
+  // const secondaryAudio = audio.cloneNode();
 
   let list = [
     {

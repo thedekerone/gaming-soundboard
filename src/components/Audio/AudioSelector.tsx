@@ -18,9 +18,10 @@ export default function AudioSelector({ effectAudio }: { effectAudio: any }) {
     return virtualInput;
   }
 
-  function attachSinkId(element: any, sinkId: any) {
-    if (typeof element.current.sinkId !== 'undefined') {
-      element.current
+  function attachSinkId(audioOutput: any, sinkId: any) {
+    console.log(audioOutput);
+    if (typeof audioOutput.sinkId !== 'undefined') {
+      audioOutput
         .setSinkId(sinkId)
         .then(() => {
           console.log(`Success, audio output device attached: ${sinkId}`);
@@ -33,7 +34,7 @@ export default function AudioSelector({ effectAudio }: { effectAudio: any }) {
           }
           console.error(errorMessage);
           // Jump back to first output device in the list as it's the default.
-          element.current.value = outputDevices[0].deviceId;
+          audioOutput.value = outputDevices[0].deviceId;
         });
     } else {
       console.warn('Browser does not support output device selection.');
@@ -81,7 +82,7 @@ export default function AudioSelector({ effectAudio }: { effectAudio: any }) {
 
   const handleOutputChange = (el: any) => {
     console.log(el);
-    multipleSinkId([videoElement, effectAudio], el.target.value);
+    multipleSinkId([videoElement.current, effectAudio], el.target.value);
   };
 
   useEffect(() => {
@@ -95,7 +96,10 @@ export default function AudioSelector({ effectAudio }: { effectAudio: any }) {
           res.filter((el) => el.kind === 'audiooutput')
         );
 
-        multipleSinkId([videoElement, effectAudio], newDefault.deviceId);
+        multipleSinkId(
+          [videoElement.current, effectAudio],
+          newDefault.deviceId
+        );
 
         return null;
       })
