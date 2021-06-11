@@ -44,7 +44,7 @@ function AudioComponent({
   return (
     <Button
       variant="contained"
-      color="secondary"
+      color="primary"
       onClick={handleClick}
       className={classes.button}
       startIcon={
