@@ -48,7 +48,7 @@ const installExtensions = async () => {
       extensions.map((name) => installer[name]),
       forceDownload
     )
-    .catch(console.log);
+    .catch(
 };
 
 const createWindow = async () => {
@@ -124,7 +124,7 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.whenReady().then(createWindow).catch(console.log);
+app.whenReady().then(createWindow).catch(
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the

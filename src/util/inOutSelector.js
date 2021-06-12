@@ -6,48 +6,7 @@ const selectors = [audioInputSelect, audioOutputSelect, videoSelect];
 
 // audioOutputSelect.disabled = !('sinkId' in HTMLMediaElement.prototype);
 
-export function gotDevices(deviceInfos) {
-  // Handles being called several times to update labels. Preserve values.
-  // const values = selectors.map((select) => select.value);
-
-  console.log(deviceInfos);
-
-  // selectors.forEach((select) => {
-  //   while (select.firstChild) {
-  //     select.removeChild(select.firstChild);
-  //   }
-  // });
-
-  // eslint-disable-next-line no-plusplus
-  // for (let i = 0; i !== deviceInfos.length; ++i) {
-  //   const deviceInfo = deviceInfos[i];
-  //   const option = document.createElement('option');
-  //   option.value = deviceInfo.deviceId;
-  //   if (deviceInfo.kind === 'audioinput') {
-  //     option.text =
-  //       deviceInfo.label || `microphone ${audioInputSelect.length + 1}`;
-  //     audioInputSelect.appendChild(option);
-  //   } else if (deviceInfo.kind === 'audiooutput') {
-  //     option.text =
-  //       deviceInfo.label || `speaker ${audioOutputSelect.length + 1}`;
-  //     audioOutputSelect.appendChild(option);
-  //   } else if (deviceInfo.kind === 'videoinput') {
-  //     option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
-  //     videoSelect.appendChild(option);
-  //   } else {
-  //     console.log('Some other kind of source/device: ', deviceInfo);
-  //   }
-  // }
-  // selectors.forEach((select, selectorIndex) => {
-  //   if (
-  //     Array.prototype.slice
-  //       .call(select.childNodes)
-  //       .some((n) => n.value === values[selectorIndex])
-  //   ) {
-  //     select.value = values[selectorIndex];
-  //   }
-  // });
-}
+export function gotDevices(deviceInfos) {}
 
 // Attach audio output device to video element using device/sink ID.
 export function attachSinkId(element, sinkId) {
@@ -55,7 +14,6 @@ export function attachSinkId(element, sinkId) {
     element
       .setSinkId(sinkId)
       .then(() => {
-        console.log(`Success, audio output device attached: ${sinkId}`);
         return null;
       })
       .catch((error) => {
@@ -63,12 +21,9 @@ export function attachSinkId(element, sinkId) {
         if (error.name === 'SecurityError') {
           errorMessage = `You need to use HTTPS for selecting audio output device: ${error}`;
         }
-        console.error(errorMessage);
         // Jump back to first output device in the list as it's the default.
         audioOutputSelect.selectedIndex = 0;
       });
-  } else {
-    console.warn('Browser does not support output device selection.');
   }
 }
 
@@ -110,10 +65,3 @@ export function start() {
     .then(gotDevices)
     .catch(handleError);
 }
-
-// audioInputSelect.onchange = start;
-// audioOutputSelect.onchange = changeAudioDestination;
-
-// videoSelect.onchange = start;
-
-// start();

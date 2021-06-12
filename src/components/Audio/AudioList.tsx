@@ -5,6 +5,13 @@ import AudioComponent from './Audio';
 import AudioSelector from './AudioSelector';
 import { useAudio } from './audioHooks';
 
+type AudioType = {
+  title: string;
+  url: string;
+  id: number;
+  playing: boolean;
+};
+
 const EXCHANGE_RATES = gql`
   query getSounds {
     allSounds {
@@ -37,20 +44,7 @@ export default function AudioList() {
   );
   // const secondaryAudio = audio.cloneNode();
 
-  let list = [
-    {
-      title: 'sideral',
-      url: '../assets/audio/causagaa.mp3',
-      id: 1,
-      playing: false,
-    },
-    {
-      title: 'sideral 2',
-      url: '../assets/audio/despierta.mp3',
-      id: 2,
-      playing: false,
-    },
-  ];
+  let list: Array<AudioType> = [];
 
   useEffect(() => {
     const ret = globalShortcut.register('5', () => {
@@ -68,8 +62,6 @@ export default function AudioList() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  console.log('-----------data-----------');
-  console.log(data.allSounds);
   const formatedData = data.allSounds.map((el: any) => ({
     title: el.title,
     url: el.file.publicUrl,

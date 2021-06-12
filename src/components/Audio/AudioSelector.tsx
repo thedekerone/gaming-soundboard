@@ -8,8 +8,6 @@ export default function AudioSelector({ effectAudio }: { effectAudio: any }) {
   const [stream, setStream]: any = useState();
 
   const videoElement: any = useRef(null);
-  const audioInputSelect: any = useRef(null);
-  // const videoElement: any = useRef(null);
 
   function getVirtualInput(deviceList: any) {
     const virtualInput = deviceList.find((el: any) =>
@@ -19,7 +17,6 @@ export default function AudioSelector({ effectAudio }: { effectAudio: any }) {
   }
 
   function attachSinkId(audioOutput: any, sinkId: any) {
-    console.log(audioOutput);
     if (typeof audioOutput.sinkId !== 'undefined') {
       audioOutput
         .setSinkId(sinkId)
