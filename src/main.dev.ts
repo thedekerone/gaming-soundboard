@@ -48,7 +48,7 @@ const installExtensions = async () => {
       extensions.map((name) => installer[name]),
       forceDownload
     )
-    .catch(
+    .catch((err: any) => console.log(err));
 };
 
 const createWindow = async () => {
@@ -124,10 +124,11 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.whenReady().then(createWindow).catch(
+app
+  .whenReady()
+  .then(createWindow)
+  .catch((err) => console.log(err));
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
 });
