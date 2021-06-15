@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Input } from '@material-ui/core';
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import useStyles from './audioStyles';
@@ -31,28 +31,31 @@ function AudioComponent({
 }: AudioProps) {
   const classes = useStyles();
   const { title, url, playing, id } = options;
-  console.log(current);
-  console.log(id);
   // const [playing, setPLaying] = useState(false);
 
   const handleClick = () => {
+    console.log(playing);
     toggle(url, id, false);
     setCurrent(options.id);
     // setPLaying(!playing);
   };
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={handleClick}
-      className={classes.button}
-      startIcon={
-        active ? <PauseCircleFilledIcon /> : <PlayCircleFilledWhiteIcon />
-      }
-    >
-      {title}
-    </Button>
+    <div className={classes.flexContainer}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClick}
+        style={{ width: '100%' }}
+        className={classes.button}
+        startIcon={
+          active ? <PauseCircleFilledIcon /> : <PlayCircleFilledWhiteIcon />
+        }
+      >
+        {title}
+      </Button>
+      <Input type="text" />
+    </div>
   );
 }
 

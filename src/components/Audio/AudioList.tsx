@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { gotDevices } from '../../util/inOutSelector';
 import AudioComponent from './Audio';
 import AudioSelector from './AudioSelector';
-import { useAudio } from './audioHooks';
+import { useAudio, useGetAudioList } from './audioHooks';
 
 type AudioType = {
   title: string;
@@ -58,17 +58,11 @@ export default function AudioList() {
     }
   }, []);
 
-  const { loading, error, data } = useQuery(EXCHANGE_RATES);
+  const { loading, error, data } = useGetAudioList();
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  const formatedData = data.allSounds.map((el: any) => ({
-    title: el.title,
-    url: el.file.publicUrl,
-    id: el.id,
-    playing: false,
-  }));
-  list = formatedData;
+  list = data;
   return (
     <div>
       {list.map((el) => (
