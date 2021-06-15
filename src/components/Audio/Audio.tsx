@@ -3,6 +3,7 @@ import { Button, Input } from '@material-ui/core';
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import useStyles from './audioStyles';
+import ShortcutInput from '../Layout/ShortcutInput';
 
 // import styles from './audioStyles.tsx';
 
@@ -54,7 +55,7 @@ function AudioComponent({
       >
         {title}
       </Button>
-      <Input type="text" />
+      <ShortcutInput />
     </div>
   );
 }
