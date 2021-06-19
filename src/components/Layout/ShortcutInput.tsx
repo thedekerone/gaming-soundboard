@@ -11,7 +11,7 @@ const ShortcutInput = () => {
     let newHotkeys = '';
 
     if (event.ctrlKey && event.key !== 'Control')
-      newHotkeys = `Ctrl + ${newHotkeys}`;
+      newHotkeys = `Ctrl   + ${newHotkeys}`;
     if (event.altKey && event.key !== 'Alt') newHotkeys = `Alt + ${newHotkeys}`;
     newHotkeys += event.key;
     setKeys(newHotkeys);
