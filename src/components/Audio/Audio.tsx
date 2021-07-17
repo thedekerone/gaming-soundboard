@@ -4,6 +4,7 @@ import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite'
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import useStyles from './audioStyles';
 import ShortcutInput from '../Layout/ShortcutInput';
+import AudioPlayer from '../newAudio/Audio';
 
 // import styles from './audioStyles.tsx';
 
@@ -22,6 +23,8 @@ type AudioProps = {
   isPlaying: boolean;
 };
 
+const player1 = new AudioPlayer();
+
 function AudioComponent({
   options,
   toggle,
@@ -36,8 +39,9 @@ function AudioComponent({
 
   const handleClick = () => {
     console.log(playing);
-    toggle(url, id, false);
+    // toggle(url, id, false);
     setCurrent(options.id);
+    player1.play(url);
     // setPLaying(!playing);
   };
 
