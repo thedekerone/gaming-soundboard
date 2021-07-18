@@ -33,9 +33,12 @@ const AudioManager = ({ children }: JSX.ElementChildrenAttribute) => {
         const virtualOutput = res.outputDevices.find((el) =>
           el.label.includes('CABLE')
         );
+        console.log(virtualOutput);
+        if (!virtualOutput) alert('Descarga virtual cable ktmr');
 
         if (virtualOutput) {
           mainAudio.changeAudioDevice(virtualOutput.deviceId);
+          micAudio.changeAudioDevice(virtualOutput.deviceId);
         } else {
           throw new Error('No se encontro el VIRTUAL CABLE');
         }

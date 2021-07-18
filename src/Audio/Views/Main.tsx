@@ -6,7 +6,7 @@ import { AudioManagerContext } from '../components/AudioManager';
 import { SoundProviderContext } from '../components/SoundProvider';
 
 const Main = () => {
-  const [outputDevices, setOutputDevices] = useState<MediaDeviceInfo[]>([]);
+  const [inputDevices, setInputDevices] = useState<MediaDeviceInfo[]>([]);
   const sounds = useContext(SoundProviderContext);
   const { play, changeMic } = useContext(AudioManagerContext);
   const { loading, error, data } = sounds;
@@ -18,8 +18,8 @@ const Main = () => {
   useEffect(() => {
     getDevices()
       .then((res) => {
-        setOutputDevices(res.outputDevices);
-        changeMic(res.outputDevices[0].deviceId);
+        setInputDevices(res.inputDevices);
+        changeMic(res.inputDevices[0].deviceId);
         return null;
       })
       .catch((err) => console.log(err));
@@ -31,18 +31,22 @@ const Main = () => {
   return (
     <div>
       {data.map((sound) => (
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => play(sound.url)}
+        <div
           key={sound.id}
+          style={{ padding: '.4rem', display: 'inline-block' }}
         >
-          {sound.title}
-        </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => play(sound.url)}
+          >
+            {sound.title}
+          </Button>
+        </div>
       ))}
-
+      <br />
       <select onChange={handleMicChange} name="output" id="output">
-        {outputDevices.map((el) => (
+        {inputDevices.map((el) => (
           <option key={el.deviceId} value={el.deviceId}>
             {el.label}
           </option>
