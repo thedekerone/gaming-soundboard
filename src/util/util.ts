@@ -14,8 +14,6 @@ export const getDevices = async () => {
   return { inputDevices, outputDevices };
 };
 
-export const not = () => {};
-
 export const selectMic = (deviceId: string) => {
   if (navigator !== undefined) {
     return navigator.mediaDevices.getUserMedia({ audio: { deviceId } });

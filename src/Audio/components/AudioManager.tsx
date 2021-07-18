@@ -17,7 +17,7 @@ const stop = () => {
 };
 
 const changeMic = (deviceId: string) => {
-  selectMic(deviceId);
+  selectMic(deviceId)?.then((res) => micAudio.play(res));
 };
 
 export const AudioManagerContext = createContext({
@@ -26,11 +26,10 @@ export const AudioManagerContext = createContext({
   changeMic,
 });
 
-const AudioManager = ({ children }: any) => {
+const AudioManager = ({ children }: JSX.ElementChildrenAttribute) => {
   useEffect(() => {
     getDevices()
       .then((res) => {
-        console.log(res);
         const virtualOutput = res.outputDevices.find((el) =>
           el.label.includes('CABLE')
         );
