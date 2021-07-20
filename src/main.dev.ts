@@ -72,13 +72,22 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     icon: getAssetPath('icon.png'),
+    transparent: true,
+    frame: false,
+    fullscreen: true,
+    alwaysOnTop: true,
+
+    minimizable: false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
     },
   });
-
   mainWindow.loadURL(`file://${__dirname}/index.html`);
+
+  mainWindow.setIgnoreMouseEvents(true);
+  // mainWindow.loadURL(`https://hamul-server.herokuapp.com/`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -86,26 +95,42 @@ const createWindow = async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
-    if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
-    } else {
-      mainWindow.show();
-      mainWindow.focus();
-    }
+    // if (process.env.START_MINIMIZED) {
+    //   mainWindow.minimize();
+    // } else {
+    //   mainWindow.focus();
+    // }
+    mainWindow.show();
   });
 
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  app
+    .whenReady()
+    .then(() => {
+      const win = new BrowserWindow({ width: 800, height: 600 });
 
-  // Open urls in the user's browser
-  mainWindow.webContents.on('new-window', (event, url) => {
-    event.preventDefault();
-    shell.openExternal(url);
-  });
+      win.loadFile('index.html');
+      win.webContents.on('before-input-event', (event, input) => {
+        if (input.control && input.key.toLowerCase() === 'i') {
+          console.log('Pressed Control+I');
+          event.preventDefault();
+        }
+      });
+      return null;
+    })
+    .catch((err) => console.log(err));
+
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
+
+  // // Open urls in the user's browser
+  // mainWindow.webContents.on('new-window', (event, url) => {
+  //   event.preventDefault();
+  //   shell.openExternal(url);
+  // });
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
