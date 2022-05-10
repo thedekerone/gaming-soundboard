@@ -14,7 +14,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, globalShortcut } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
+// import Mousetrap from 'mousetrap';
 
 export default class AppUpdater {
   constructor() {
@@ -72,7 +72,7 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     icon: getAssetPath('icon.png'),
-    transparent: true,
+    transparent: false,
     frame: false,
     fullscreen: true,
     alwaysOnTop: true,
@@ -84,55 +84,39 @@ const createWindow = async () => {
       enableRemoteModule: true,
     },
   });
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`https://hamulperomejor-mauriciofow.vercel.app/`);
 
-  mainWindow.setIgnoreMouseEvents(true);
-  // mainWindow.loadURL(`https://hamul-server.herokuapp.com/`);
-
-  // @TODO: Use 'ready-to-show' event
-  //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
+    let isOpen = false;
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
-    // if (process.env.START_MINIMIZED) {
-    //   mainWindow.minimize();
-    // } else {
-    //   mainWindow.focus();
-    // }
-    mainWindow.show();
+
+    globalShortcut.register('f5', function () {
+      console.log('f5 is pressed');
+      mainWindow?.reload();
+    });
+
+    globalShortcut.register(',', () => {
+      if (!isOpen) {
+        mainWindow?.show();
+        isOpen = true;
+      } else {
+        mainWindow?.hide();
+        isOpen = false;
+      }
+    });
+
+    globalShortcut.register('7', () => {
+      mainWindow?.close();
+    });
   });
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+    console.log('ea');
   });
 
-  app
-    .whenReady()
-    .then(() => {
-      const win = new BrowserWindow({ width: 800, height: 600 });
-
-      win.loadFile('index.html');
-      win.webContents.on('before-input-event', (event, input) => {
-        if (input.control && input.key.toLowerCase() === 'i') {
-          console.log('Pressed Control+I');
-          event.preventDefault();
-        }
-      });
-      return null;
-    })
-    .catch((err) => console.log(err));
-
-  // const menuBuilder = new MenuBuilder(mainWindow);
-  // menuBuilder.buildMenu();
-
-  // // Open urls in the user's browser
-  // mainWindow.webContents.on('new-window', (event, url) => {
-  //   event.preventDefault();
-  //   shell.openExternal(url);
-  // });
-
-  // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
 };
